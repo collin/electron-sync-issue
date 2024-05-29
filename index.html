@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script defer>
+      const waitForFrame = () => {
+        return new Promise((resolve) => {
+          requestAnimationFrame(resolve);
+        });
+      };
+
+      const waitForMicroTask = () => {
+        return new Promise((resolve) => {
+          queueMicrotask(resolve);
+        });
+      };
+
+      let frameNumber = 0;
+      API.onBegin(async (framesToWaitfor) => {
+        frameNumber++;
+        document.querySelector("#output").innerText = `Frame: ${frameNumber}`;
+
+        await waitForFrame();
+        const ctx = document.querySelector("#canvas-out").getContext("2d");
+        ctx.clearRect(0, 0, 100, 100);
+        ctx.fillText("Frame: " + frameNumber, 10, 10);
+
+        await waitForFrame();
+        const ctx2 = document.querySelector("#canvas-out-2").getContext("2d");
+        ctx2.clearRect(0, 0, 100, 100);
+        ctx2.fillText("Frame: " + frameNumber, 10, 10);
+
+        await waitForFrame();
+        const ctx3 = document.querySelector("#canvas-out-3").getContext("2d");
+        ctx3.clearRect(0, 0, 100, 100);
+        ctx3.fillText("Frame: " + frameNumber, 10, 10);
+
+        await waitForFrame();
+        const ctx4 = document.querySelector("#canvas-out-4").getContext("2d");
+        ctx4.clearRect(0, 0, 100, 100);
+        ctx4.fillText("Frame: " + frameNumber, 10, 10);
+
+        console.log("Set content");
+        for (let i = 0; i < framesToWaitfor; i++) {
+          console.log("Waiting for frame");
+          await waitForFrame();
+        }
+        console.log("Frame done");
+        API.ready();
+      });
+    </script>
+  </head>
+  <body>
+    <p>Hello World</p>
+    <p id="output"></p>
+    <canvas
+      id="canvas-out"
+      height="25"
+      style="outline: 1px solid red; height: 25px"
+    ></canvas>
+    <canvas
+      id="canvas-out-2"
+      height="25"
+      style="outline: 1px solid black; height: 25px"
+    ></canvas>
+    <canvas
+      id="canvas-out-3"
+      height="25"
+      style="outline: 1px solid pink; height: 25px"
+    ></canvas>
+    <canvas
+      id="canvas-out-4"
+      height="25"
+      style="outline: 1px solid pink; height: 25px"
+    ></canvas>
+  </body>
+</html>
